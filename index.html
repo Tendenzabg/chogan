@@ -220,7 +220,7 @@ function render(){
   }
   const groups = [...new Set(items.map(d=>d.group).filter(Boolean))];
   const cur = $("fGroup").value;
-  $("fGroup").innerHTML = '<option value="">Всички категории</option>' + groups.map(x=>`<option${x===cur?" selected":""}>${esc(x)}</option>`).join("");
+  $("fGroup").innerHTML = '<option value="">Всички категории</option>' + groups.filter(x=>!Object.values(GENDER).includes(x)).map(x=>`<option${x===cur?" selected":""}>${esc(x)}</option>`).join("");
   $("groups").innerHTML = groups.map(x=>`<option value="${esc(x)}">`).join("");
 }
 
