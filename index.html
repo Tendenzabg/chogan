@@ -66,10 +66,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .brandHead{display:flex;gap:10px;align-items:baseline;margin:26px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line);font:600 22px var(--display)}
 .brandHead span{font:400 13px var(--body);color:var(--muted)}
 .rows{display:grid;gap:5px}
-.row{display:grid;grid-template-columns:auto 92px minmax(110px,1.1fr) minmax(150px,1.6fr) auto;align-items:center;gap:12px;padding:6px 12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;cursor:pointer;line-height:1.25}
+.row{display:grid;grid-template-columns:auto 92px minmax(110px,1.1fr) minmax(150px,1.6fr) auto;align-items:center;gap:12px;padding:6px 12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;line-height:1.25}
 .row:not(:has(.th)){grid-template-columns:92px minmax(110px,1.1fr) minmax(150px,1.6fr) auto}
-.row:hover{border-color:var(--accent)}
-.row:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .row .th{width:34px;height:34px;object-fit:contain;background:#fff;border-radius:4px}
 .rcode{font:700 17px var(--display);color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
 .rname,.rorig{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -204,7 +202,7 @@ function render(){
   $("clearBtn").disabled = !(q || bsel || g || s);
   $("count").textContent = list.length + " от " + items.length + " парфюма";
   const card = d => `
-    <div class="row" data-edit="${esc(d.code)}" tabindex="0" role="button" aria-label="Редактирай ${esc(d.code)}" title="${esc([d.note, d.confirmed ? "" : "Не е намерен в портала на Chogan"].filter(Boolean).join(" · "))}">
+    <div class="row" title="${esc([d.note, d.confirmed ? "" : "Не е намерен в портала на Chogan"].filter(Boolean).join(" · "))}">
       ${d.photo ? `<img class="th" src="${d.photo}" alt="">` : ""}
       <span class="rcode">${esc(d.code)}</span>
       <span class="rname">${esc(d.name || "без име")}${d.oldCode ? ` <small>ex ${esc(d.oldCode)}</small>` : ""}${d.confirmed ? "" : ' <small class="flag">не е в портала</small>'}</span>
@@ -274,8 +272,6 @@ async function remove(code){
 
 $("clearBtn").onclick = () => { $("q").value=""; $("fBrandFilter").value=""; $("fGroup").value=""; $("fGender").value=""; render(); $("q").focus(); };
 
-$("grid").onkeydown = e => { if ((e.key==="Enter"||e.key===" ") && e.target.classList.contains("row")) { e.preventDefault(); e.target.click(); } };
-$("grid").onclick = e => { const b = e.target.closest("[data-edit]"); if (b) openForm(items.find(x=>x.code===b.dataset.edit)); };
 $("addSize").onclick = () => sizeRow();
 $("cancel").onclick = () => $("dlg").close();
 $("rmPhoto").onclick = () => { photoData=""; $("fPhoto").value=""; setPrev(); };
